@@ -10,5 +10,4 @@ class BotConfig:
     web_hook_domain = os.getenv('WEB_HOOK_DOMAIN', "https://testwebhook.bale.ai")
     web_hook_path = os.getenv('WEB_HOOK_PATH', "/get-upd")
     web_hook_url = "{}{}".format(web_hook_domain, web_hook_path)
-    token = '86462669:OT8bxbLa5IBXgdluPsMgYQTke1ETpLDxpLaujipX'
-    telegram_token = '7943593831:AAH20azGjsyEv3BDMkC8TVBduPz5Kov97P8'
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
