@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-print(os.getenv('TELEGRAM_TOKEN'))
-
 class BotConfig:
     base_file_url = os.environ.get('BASE_FILE_URL', "https://tapi.bale.ai/file/")
     base_url = os.environ.get('BASE_URL', "https://tapi.bale.ai/")

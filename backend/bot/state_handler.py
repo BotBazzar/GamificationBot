@@ -1,8 +1,8 @@
 import logging
-from telegram import Update, ReplyKeyboardRemove
+from telegram import Update, ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, filters, ContextTypes
 
-from bot.functions import start, mainmenu_callback, location, start_quiz, handle_quiz_answer
+from bot.functions import start, mainmenu_callback, start_quiz, handle_quiz_answer
 from main_config import BotConfig
 from constants.quiz import QuizConstants
 
@@ -29,8 +29,7 @@ def main():
     # back_handler = RegexHandler(pattern='^(' + Keyboards.back + ')$', callback=show_categories, pass_user_data=True)
     start_handler = MessageHandler(filters.TEXT & filters.Regex("^/start$"), callback=start)
     button_handler = CallbackQueryHandler(button_handler_callback, pattern='[b_]\w*')
-    location_handler = MessageHandler(filters.LOCATION, location)
-    
+
     # Quiz conversation handler
     quiz_conv_handler = ConversationHandler(
         entry_points=[CallbackQueryHandler(start_quiz, pattern="^start_quiz$")],
@@ -44,12 +43,11 @@ def main():
 
     # Add handlers
     application.add_handler(start_handler)
-    application.add_handler(location_handler)
     application.add_handler(quiz_conv_handler)
     application.add_handler(CallbackQueryHandler(mainmenu_callback, pattern="^(main_menu)$"))
     
     # Run the bot
-    application.run_polling(poll_interval=3)
+    application.run_polling(poll_interval=5)
 
 
 async def button_handler_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):

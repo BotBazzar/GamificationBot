@@ -1,20 +1,12 @@
 from db.models import *
 
 
-def add_new_user(full_name, chat_id, employee_id):
-    u = User(chat_id=chat_id)
+def add_new_user(chat_id, username, first_name, last_name):
+    u = User(chat_id=chat_id, username=username, first_name=first_name, last_name=last_name)
     u.save()
-    e = Employee(full_name=full_name, employee_id=employee_id, user=u)
-    e.save()
 
 
 def user_exists(chat_id):
     print(chat_id)
-    u = User.objects.filter(chat_id=chat_id)
-    if len(u) == 0:
-        return False
-    return True
+    return User.objects.filter(chat_id=chat_id).exists()
 
-
-def user_is_leader(chat_id):
-    return False
