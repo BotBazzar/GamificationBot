@@ -1,23 +1,42 @@
-// Copyright (c) 2023 Michael Kolesidis <michael.kolesidis@gmail.com>
-// Licensed under the GNU Affero General Public License v3.0.
-// https://www.gnu.org/licenses/gpl-3.0.html
-
 import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Interface from "./interface/Interface";
 import Game from "./Game";
+import Leaderboard from "./Leaderboard";
 
 const App = () => {
   const [windowWidth] = useState(window.innerWidth);
   const cameraPositionZ = windowWidth > 500 ? 30 : 40;
-
   return (
-    <>
-      <Interface />
-      <Canvas camera={{ fov: 75, position: [0, 0, cameraPositionZ] }}>
-        <Game />
-      </Canvas>
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Interface />
+              <Canvas camera={{ fov: 75, position: [0, 0, cameraPositionZ] }}>
+                <Game />
+              </Canvas>
+            </>
+          }
+        />
+
+        <Route
+          path="/leaderboard"
+          element={
+            <Leaderboard
+              users={[
+                { name: "Player 1", score: 1000 },
+                { name: "Player 2", score: 850 },
+                { name: "Player 3", score: 700 },
+              ]}
+            />
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 
