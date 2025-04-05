@@ -98,33 +98,6 @@ async def receive_poll_answer(update: Update, context: ContextTypes.DEFAULT_TYPE
         await context.bot.stop_poll(answered_poll["chat_id"], answered_poll["message_id"])
 
 
-async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Send a predefined poll"""
-    questions = ["1", "2", "4", "20"]
-    message = await update.effective_message.reply_poll(
-        "How many eggs do you need for a cake?", questions, type=Poll.QUIZ, correct_option_id=2
-    )
-    # Save some info about the poll the bot_data for later use in receive_quiz_answer
-    payload = {
-        message.poll.id: {"chat_id": update.effective_chat.id, "message_id": message.message_id}
-    }
-    context.bot_data.update(payload)
-
-
-async def receive_quiz_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Close quiz after three participants took it"""
-    # the bot can receive closed poll updates we don't care about
-    if update.poll.is_closed:
-        return
-    if update.poll.total_voter_count == TOTAL_VOTER_COUNT:
-        try:
-            quiz_data = context.bot_data[update.poll.id]
-        # this means this poll answer update is from an old poll, we can't stop it then
-        except KeyError:
-            return
-        await context.bot.stop_poll(quiz_data["chat_id"], quiz_data["message_id"])
-
-
 async def preview(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Ask user to create a poll and display a preview of it"""
     # using this without a type lets the user chooses what he wants (quiz or poll)
