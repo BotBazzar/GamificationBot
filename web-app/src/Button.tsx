@@ -8,7 +8,7 @@ import { GLTF } from "three-stdlib";
 
 type GLTFResult = GLTF & {
   nodes: {
-    Cube_Subscribe_0: THREE.Mesh;
+    Cube_Subscribe_0: THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>;
   };
 };
 
