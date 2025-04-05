@@ -12,7 +12,7 @@ services:
       - DB_PASS=B6uwaNdG9HEP
       - DB_PORT=5432
       - DB_SERVICE=db
-      - DJANGO_ALLOWED_HOSTS = 'localhost,api.erfanfaravani.ir'
+      - DJANGO_ALLOWED_HOSTS='localhost,api.erfanfaravani.ir'
 
     # ports:
     #   - 8000:8000
