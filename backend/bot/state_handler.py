@@ -1,8 +1,9 @@
 import logging
 from telegram import Update, ReplyKeyboardRemove, KeyboardButton, ReplyKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, filters, ContextTypes
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ConversationHandler, MessageHandler, \
+    filters, ContextTypes, PollHandler, PollAnswerHandler
 
-from bot.functions import start, mainmenu_callback, start_quiz, handle_quiz_answer
+from bot.functions import start, mainmenu_callback, start_quiz, receive_quiz_answer
 from main_config import BotConfig
 from constants.quiz import QuizConstants
 
@@ -23,31 +24,19 @@ QUIZ_STATES = {
     "QUIZ_COMPLETED": "quiz_completed"
 }
 
-def main():
+def main() -> None:
+    """Run bot."""
+    # Create the Application and pass it your bot's token.
     application = ApplicationBuilder().token(BotConfig.telegram_token).build()
 
-    # back_handler = RegexHandler(pattern='^(' + Keyboards.back + ')$', callback=show_categories, pass_user_data=True)
-    start_handler = MessageHandler(filters.TEXT & filters.Regex("^/start$"), callback=start)
-    button_handler = CallbackQueryHandler(button_handler_callback, pattern='[b_]\w*')
+    # Add conversation handler
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CallbackQueryHandler(mainmenu_callback, pattern="^main_menu$"))
+    application.add_handler(CallbackQueryHandler(start_quiz, pattern="^start_quiz$"))
+    application.add_handler(PollAnswerHandler(receive_quiz_answer))
 
-    # Quiz conversation handler
-    quiz_conv_handler = ConversationHandler(
-        entry_points=[CallbackQueryHandler(start_quiz, pattern="^start_quiz$")],
-        states={
-            QUIZ_STATES["QUIZ_QUESTION_1"]: [CallbackQueryHandler(handle_quiz_answer, pattern="^quiz_answer_")],
-            QUIZ_STATES["QUIZ_QUESTION_2"]: [CallbackQueryHandler(handle_quiz_answer, pattern="^quiz_answer_")],
-            QUIZ_STATES["QUIZ_QUESTION_3"]: [CallbackQueryHandler(handle_quiz_answer, pattern="^quiz_answer_")],
-        },
-        fallbacks=[]
-    )
-
-    # Add handlers
-    application.add_handler(start_handler)
-    application.add_handler(quiz_conv_handler)
-    application.add_handler(CallbackQueryHandler(mainmenu_callback, pattern="^(main_menu)$"))
-    
-    # Run the bot
-    application.run_polling(poll_interval=5)
+    # Run the bot until the user presses Ctrl-C
+    application.run_polling(allowed_updates=Update.ALL_TYPES,poll_interval=5)
 
 
 async def button_handler_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
