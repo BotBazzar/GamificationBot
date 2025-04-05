@@ -45,5 +45,6 @@ def init_django():
 if __name__ == "__main__":
     from django.core.management import execute_from_command_line
 
-    init_django()
+    # init_django()
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GamificationBot.settings')
     execute_from_command_line(sys.argv)
