@@ -9,7 +9,7 @@ from .functions import (
 )
 from main_config import BotConfig
 
-async def get_application():
+def get_application():
     application = ApplicationBuilder().token(BotConfig.telegram_token).build()
 
     # Add conversation handler
