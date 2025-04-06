@@ -9,6 +9,7 @@ const WheelPage: React.FC = () => {
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
   const [hasSpun, setHasSpun] = useState<boolean>(false);
   const [prizeData, setPrizeData] = useState<{ option: string }[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const prizeImages = [
     "/images/prize_1.webp",
     "/images/prize_2.jpg",
@@ -16,22 +17,35 @@ const WheelPage: React.FC = () => {
   ];
   const [loading, setLoading] = useState<boolean>(true);
   const BASE_URL = "https://api.botbazaar.ir"; // "http://localhost:8000";
-  const { user } = useTelegram();
+  // const { user } = useTelegram();
+  const user = {
+    id: 109833946,
+    first_name: "John",
+    last_name: "Doe",
+    username: "johndoe",
+  };
 
   useEffect(() => {
     if (user?.id) {
       const fetchPrize = async () => {
         try {
-          const res = await fetch(
-            `${BASE_URL}/app/prizes/?chat_id=${user.id}`
-          );
+          const res = await fetch(`${BASE_URL}/app/prizes/?chat_id=${user.id}`, {
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            }
+          });
+          if (!res.ok) {
+            throw new Error("خطا در دریافت جوایز");
+          }
           const data: PrizeApiResponse = await res.json();
 
           setPrizeIndex(data.prizeIndex);
           setHasSpun(data.hasSpun);
           setPrizeData(data.prizeList.map((prize) => ({ option: prize.name })));
         } catch (err) {
-          console.error("Error fetching prize:", err);
+          setError(err instanceof Error ? err.message : "خطا در دریافت جوایز");
         } finally {
           setLoading(false);
         }
@@ -39,7 +53,7 @@ const WheelPage: React.FC = () => {
 
       fetchPrize();
     }
-  }, []);
+  }, [user.id]);
 
   const handleSpinComplete = async () => {
     try {

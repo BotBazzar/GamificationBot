@@ -156,13 +156,19 @@ CORS_ALLOWED_ORIGINS = [
     'https://botbazaar.ir',
     'https://www.botbazaar.ir',
     'https://erfanfaravani.ir',
+    'https://api.botbazaar.ir',
 ]
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'Authorization',
-    'Content-Type',
-    'X-CSRFToken',
-    'Set-Cookie',
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 CORS_ALLOW_METHODS = [
