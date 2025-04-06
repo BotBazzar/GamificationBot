@@ -2,7 +2,7 @@ import json
 import logging
 
 from telegram import (Update, InlineKeyboardButton,
-                      InlineKeyboardMarkup, Poll)
+                      InlineKeyboardMarkup, Poll, WebAppInfo)
 from telegram.ext import *
 
 from constants.messages import BotMessages
@@ -34,15 +34,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def mainmenu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    buttons = [
-        {'text': "🎮 بازی‌های سرگرم‌کننده", 'callback_data': "b_games"},
-        {'text': "🏆 رتبه‌بندی", 'callback_data': "b_leaderboard"},
-        {'text': "🎁 جوایز", 'callback_data': "b_rewards"},
-        {'text': "🎯 چالش‌ها", 'callback_data': "start_quiz"},
-        {'text': "📚 راهنمای بازاریابی گیمیفیکیشن", 'callback_data': "b_guide"},
-    ]
-
-    reply_keyboard = [[InlineKeyboardButton(text=b['text'], callback_data=b['callback_data'])] for b in buttons]
+    b_leaderboard = [InlineKeyboardButton('🏆 رتبه‌بندی', web_app=WebAppInfo(url='https://erfanfaravani.ir/#/leaderboard'))]
+    b_rewards = [InlineKeyboardButton('🎁 جوایز', callback_data="b_rewards")]
+    b_challenges = [InlineKeyboardButton('🎯 چالش‌ها', callback_data="start_quiz")]
+    reply_keyboard = [b_leaderboard, b_rewards, b_challenges]
     reply_markup = InlineKeyboardMarkup(reply_keyboard)
 
     query = update.callback_query

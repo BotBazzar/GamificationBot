@@ -21,10 +21,13 @@ class GetLeaderboardView(APIView):
 
 class GetPrizesView(APIView):
     def get(self, request):
+        chat_id = request.query_params.get('chat_id')
+        if not chat_id:
+            return Response({"error": "chat_id is required"}, status=400)
+        user = User.objects.get(chat_id=chat_id)
         return Response({
-            "prizeIndex": 3,
-            "hasSpun": True,
-            "imageUrl": "https://example.com/images/prize3.png",
+            "prizeIndex": user.prize,
+            "hasSpun": user.has_spun,
             "prizeList": [
                 {"name": "کارت بازی"},
                 {"name": "گل یا پوچ"},
