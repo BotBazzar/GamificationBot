@@ -19,9 +19,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(start.__name__)
     chat_id = update.message.chat_id
     user = update.message.from_user
-    print(user)
-    if not user_exists(chat_id):
-        add_new_user(chat_id, user.username, user.first_name, user.last_name)
+    is_user=await user_exists(chat_id)
+    if not is_user:
+        await add_new_user(chat_id, user.username, user.first_name, user.last_name)
 
     welcome_message = BotMessages.welcome
     if user.first_name:
@@ -51,8 +51,8 @@ async def start_quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = query.message.chat_id
     user = query.message.from_user
     
-    if not user_exists(chat_id):
-        add_new_user(chat_id, user.username, user.first_name, user.last_name)
+    if not await user_exists(chat_id):
+        await add_new_user(chat_id, user.username, user.first_name, user.last_name)
 
     await query.message.reply_text(QuizConstants.messages.get('start', None))
     await query.answer()
@@ -104,6 +104,6 @@ async def receive_quiz_answer(update: Update, context: ContextTypes.DEFAULT_TYPE
     
     # Update user's score
     if poll_answer.option_ids[0] == correct_option:
-        update_user_score(chat_id, 1)  # Add 1 point for correct answer
+        await update_user_score(chat_id, 1)  # Add 1 point for correct answer
     else:
-        update_user_score(chat_id, 0)  # No points for incorrect answer
+        await update_user_score(chat_id, 0)  # No points for incorrect answer
