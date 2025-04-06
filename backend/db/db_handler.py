@@ -10,3 +10,9 @@ def add_new_user(chat_id, username, first_name, last_name):
 def user_exists(chat_id):
     print(chat_id)
     return User.objects.filter(chat_id=chat_id).exists()
+
+def update_user_score(chat_id, score):
+    user = User.objects.get(chat_id=chat_id)
+    user.score += score
+    user.answers += 1
+    user.save()
