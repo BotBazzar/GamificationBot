@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -116,9 +117,52 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
 
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+default_headers = (
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
+
+default_methods = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
+AUTH_COOKIE = 'access'
+if not DEBUG:
+    AUTH_COOKIE_DOMAIN = '.botbazaar.ir'
+else:
+    AUTH_COOKIE_DOMAIN = None
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://botbazaar.ir',
+    'https://www.botbazaar.ir',
+]
+CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.127.0.0.1',
+    'http://localhost:3000',
+    'http://localhost:8000',
+    'https://botbazaar.ir',
+    'https://api.botbazaar.ir',
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
