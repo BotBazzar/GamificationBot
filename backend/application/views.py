@@ -16,7 +16,9 @@ class GetUsersInfoView(APIView):
 
 class GetLeaderboardView(APIView):
     def get(self, request):
-        return Response({"message": "Hello, Leaderboard!"})
+        users =  User.objects.all().order_by('-score')
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=200)
 
 
 class GetPrizesView(APIView):
@@ -40,4 +42,10 @@ class GetPrizesView(APIView):
         })
 
     def post(self, request):
-        return Response({"message": "Hello, Prizes!"})
+        chat_id= request.query_params.get('chat_id')
+        if not chat_id:
+            return Response({"error": "chat_id is required"}, status=400)
+        user = User.objects.get(chat_id=chat_id)
+        user.has_spun = True
+        user.save()
+        return Response({"message": "Prize marked as spun"})

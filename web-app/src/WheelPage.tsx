@@ -46,7 +46,7 @@ const WheelPage: React.FC = () => {
 
   const handleSpinComplete = async () => {
     try {
-      await fetch(`http://localhost:8000/app/mark-spun?chat_id=${user?.id}`, {
+      await fetch(`http://localhost:8000/app/mark-spun/?chat_id=${user?.id}`, {
         method: "POST",
       });
       setHasSpun(true);
