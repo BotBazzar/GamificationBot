@@ -1,8 +1,8 @@
 services:
   backend:
     build: ./backend
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     environment:
       - DB_NAME=gamify360DB
       - DB_USER=gamify360db_owner
@@ -26,19 +26,19 @@ services:
   #     - network
 
 
-  db:
-    image: postgres
-    environment:
-      POSTGRES_USER: gamify360db_owner
-      POSTGRES_PASSWORD: B6uwaNdG9HEP
-      POSTGRES_DB: gamify360DB
-    networks:
-      - network
-    volumes:
-      - psql-data:/var/lib/postgres/data
-    restart: always
-    ports:
-      - 5432:5432
+  # db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: gamify360db_owner
+  #     POSTGRES_PASSWORD: B6uwaNdG9HEP
+  #     POSTGRES_DB: gamify360DB
+  #   networks:
+  #     - network
+  #   volumes:
+  #     - psql-data:/var/lib/postgres/data
+  #   restart: always
+  #   ports:
+  #     - 5432:5432
 
   nginx:
     build: ./nginx
