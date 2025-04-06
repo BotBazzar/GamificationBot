@@ -17,13 +17,7 @@ const WheelPage: React.FC = () => {
   ];
   const [loading, setLoading] = useState<boolean>(true);
   const BASE_URL = "https://api.botbazaar.ir"; // "http://localhost:8000";
-  // const { user } = useTelegram();
-  const user = {
-    id: 109833946,
-    first_name: "John",
-    last_name: "Doe",
-    username: "johndoe",
-  };
+  const { user } = useTelegram();
 
   useEffect(() => {
     if (user?.id) {
@@ -53,7 +47,7 @@ const WheelPage: React.FC = () => {
 
       fetchPrize();
     }
-  }, [user.id]);
+  }, [user?.id]);
 
   const handleSpinComplete = async () => {
     try {
