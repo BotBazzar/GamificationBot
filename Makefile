@@ -3,7 +3,6 @@ run:
 start:
 	docker compose up
 build:
-	cp -a local/. backend/local/
 	docker compose up -d --no-deps --build
 frontend:
 	docker compose up -d --no-deps --build frontend
