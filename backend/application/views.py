@@ -31,8 +31,8 @@ class GetPrizesView(APIView):
             "prizeIndex": user.prize,
             "hasSpun": user.has_spun,
             "prizeList": [
-                {"name": "کارت بازی"},
                 {"name": "گل یا پوچ"},
+                {"name": "کارت بازی"},
                 {"name": "مارپله"},
                 {"name":"پوچ"},
                 {"name": "کارت بازی"},

@@ -9,11 +9,11 @@ const WheelPage: React.FC = () => {
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
   const [hasSpun, setHasSpun] = useState<boolean>(false);
   const [prizeData, setPrizeData] = useState<{ option: string }[]>([]);
-  const [prizeImage, setPrizeImage] = useState<string>("");
+  const prizeImages = ["/images/prize_1.webp", "/images/prize_2.jpg", "/images/prize_3.jpg"];
   const [loading, setLoading] = useState<boolean>(true);
   //   const { webApp, user } = useTelegram();
   const user = {
-    id: 1,
+    id:109833946,
     first_name: "John",
     last_name: "Doe",
     username: "johndoe",
@@ -30,7 +30,6 @@ const WheelPage: React.FC = () => {
           const data: PrizeApiResponse = await res.json();
 
           setPrizeIndex(data.prizeIndex);
-          setPrizeImage(data.imageUrl);
           setHasSpun(data.hasSpun);
           setPrizeData(data.prizeList.map((prize) => ({ option: prize.name })));
         } catch (err) {
@@ -42,7 +41,7 @@ const WheelPage: React.FC = () => {
 
       fetchPrize();
     }
-  }, [user]);
+  }, [user.id]);
 
   const handleSpinComplete = async () => {
     try {
@@ -77,7 +76,7 @@ const WheelPage: React.FC = () => {
           <h2>شما قبلاً چرخ را چرخانده‌اید!</h2>
           <div className="prize-image-container">
             <img
-              src={"/images/prize_2.jpg"}
+              src={prizeImages[prizeIndex ?? 0]}
               alt="جایزه شما"
               className="prize-image"
             />
