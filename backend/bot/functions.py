@@ -10,7 +10,7 @@ from constants.quiz import QuizConstants
 from db.db_handler import *
 
 # Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
+# logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.DEBUG)
 #
 logger = logging.getLogger()
 
@@ -93,18 +93,9 @@ async def receive_quiz_answer(update: Update, context: ContextTypes.DEFAULT_TYPE
     poll_answer = update.poll_answer
     user = poll_answer.user
     chat_id = user.id
-    
-    # Get the question that was answered using poll_id
-    poll_data = context.bot_data.get(str(poll_answer.poll_id))
-    if not poll_data:
-        logger.warning(f"Poll data not found for poll_id: {poll_answer.poll_id}")
-        return
 
-    question = poll_data['question']
-    correct_option = poll_data['correct_option']
-    
     # Update user's score
-    if poll_answer.option_ids[0] == correct_option:
+    if poll_answer.option_ids[0] == 2:
         await update_user_score(chat_id, 1)  # Add 1 point for correct answer
     else:
         await update_user_score(chat_id, 0)  # No points for incorrect answer
