@@ -9,7 +9,7 @@ from .functions import (
 )
 from main_config import BotConfig
 
-async def webhook(request):
+async def get_application():
     application = ApplicationBuilder().token(BotConfig.telegram_token).build()
 
     # Add conversation handler
@@ -18,9 +18,5 @@ async def webhook(request):
     application.add_handler(CallbackQueryHandler(start_quiz, pattern="^start_quiz$"))
     application.add_handler(PollAnswerHandler(receive_quiz_answer))
 
-    
     # Process webhook request
-    update = await application.bot.get_updates()
-    await application.process_update(update)
-    
-    return "OK"
+    return application
