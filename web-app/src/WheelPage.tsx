@@ -39,7 +39,7 @@ const WheelPage: React.FC = () => {
 
       fetchPrize();
     }
-  }, [user]);
+  }, []);
 
   const handleSpinComplete = async () => {
     try {

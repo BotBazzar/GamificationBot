@@ -155,14 +155,30 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
     'https://botbazaar.ir',
     'https://www.botbazaar.ir',
+    'https://erfanfaravani.ir',
 ]
-CORS_ALLOW_HEADERS = list(default_headers) + ['Set-Cookie']
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Authorization',
+    'Content-Type',
+    'X-CSRFToken',
+    'Set-Cookie',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.127.0.0.1',
     'http://localhost:3000',
     'http://localhost:8000',
     'https://botbazaar.ir',
     'https://api.botbazaar.ir',
+    'https://erfanfaravani.ir',
 ]
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

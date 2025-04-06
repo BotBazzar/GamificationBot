@@ -11,8 +11,8 @@ interface LeaderboardProps {
   }>;
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({ users }) => {
-  const [leaderboard, setLeaderboard] = useState(users);
+const Leaderboard: React.FC<LeaderboardProps> = () => {
+  const [leaderboard, setLeaderboard] = useState([]);
   const { user } = useTelegram();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
