@@ -11,21 +11,19 @@ services:
       - DB_SERVICE=db
       - DJANGO_ALLOWED_HOSTS='localhost,api.erfanfaravani.ir'
 
-    container_name: backend
-    expose:
-      - "8000"
+    # ports:
+    #   - 8000:8000
     networks:
       - network
 
-  frontend:
-    build: ./web-app
-    container_name: frontend
-    expose:
-      - "3000"
-    environment:
-      - NODE_ENV=production
-    networks:
-      - network
+  # frontend:
+  #   build: ./web-app
+  #   # ports:
+  #   #   - 3000:3000
+  #   environment:
+  #     - NODE_ENV=production
+  #   networks:
+  #     - network
 
 
   db:
@@ -43,19 +41,15 @@ services:
       - 5432:5432
 
   nginx:
-    build:
-      context: ./nginx
-    container_name: nginx
+    build: ./nginx
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx/conf:/etc/nginx/conf.d   # ✅ this mounts your config folder
+      - 80:80
     networks:
       - network
     depends_on:
       # - db
-      # - backend
-      - frontend
+      - backend
+      # - frontend
 
 networks:
   network:
