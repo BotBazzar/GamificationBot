@@ -9,23 +9,21 @@ const WheelPage: React.FC = () => {
   const [prizeIndex, setPrizeIndex] = useState<number | null>(null);
   const [hasSpun, setHasSpun] = useState<boolean>(false);
   const [prizeData, setPrizeData] = useState<{ option: string }[]>([]);
-  const prizeImages = ["/images/prize_1.webp", "/images/prize_2.jpg", "/images/prize_3.jpg"];
+  const prizeImages = [
+    "/images/prize_1.webp",
+    "/images/prize_2.jpg",
+    "/images/prize_3.jpg",
+  ];
   const [loading, setLoading] = useState<boolean>(true);
-  //   const { webApp, user } = useTelegram();
-  const user = {
-    id:109833946,
-    first_name: "John",
-    last_name: "Doe",
-    username: "johndoe",
-    language_code: "en",
-  };
+  const BASE_URL = "https://api.botbazaar.ir"; // "http://localhost:8000";
+  const { user } = useTelegram();
 
   useEffect(() => {
     if (user?.id) {
       const fetchPrize = async () => {
         try {
           const res = await fetch(
-            `http://localhost:8000/app/prizes/?chat_id=${user.id}`
+            `${BASE_URL}/app/prizes/?chat_id=${user.id}`
           );
           const data: PrizeApiResponse = await res.json();
 
@@ -41,11 +39,11 @@ const WheelPage: React.FC = () => {
 
       fetchPrize();
     }
-  }, [user.id]);
+  }, [user]);
 
   const handleSpinComplete = async () => {
     try {
-      await fetch(`http://localhost:8000/app/mark-spun/?chat_id=${user?.id}`, {
+      await fetch(`${BASE_URL}/app/mark-spun/?chat_id=${user?.id}`, {
         method: "POST",
       });
       setHasSpun(true);
@@ -69,7 +67,7 @@ const WheelPage: React.FC = () => {
       <h2 style={{ textAlign: "center", fontSize: "24px", color: "#6c757d" }}>
         {user?.first_name} {user?.last_name} خوش آمدید
       </h2>
-      <h1 className="wheel-title">🎁 چرخ فریب‌دهنده!</h1>
+      <h1 className="wheel-title">🎁 گردونه شانس!</h1>
 
       {hasSpun ? (
         <div className="prize-card">

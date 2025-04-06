@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { useTelegram } from "./providers/TelegramProvider";
 
 interface LeaderboardProps {
-  users: Array<{ first_name: string; last_name: string; username: string; score: number }>;
+  users: Array<{
+    first_name: string;
+    last_name: string;
+    username: string;
+    score: number;
+  }>;
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ users }) => {
@@ -11,12 +16,11 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ users }) => {
   const { user } = useTelegram();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const BASE_URL = "https://api.botbazaar.ir"; // "http://localhost:8000";
   useEffect(() => {
     const fetchLeaderboard = async () => {
-      //https://api.botbazaar.ir
       try {
-        const res = await fetch(`http://localhost:8000/app/leaderboard/`);
+        const res = await fetch(`${BASE_URL}/app/leaderboard/`);
         if (!res.ok) {
           throw new Error("خطا در دریافت رتبه‌بندی");
         }
